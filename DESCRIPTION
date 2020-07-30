@@ -1,0 +1,10 @@
+Package: hicPainter
+Type: Package
+Title: Visualize -C data
+Version: 0.1.0
+Author: Roberto Malinverni
+Maintainer: The package maintainer <rmalinverni@carrerasresearch.org>
+Description: R-package to visualize and -C Data
+License: What license is it under?
+Encoding: UTF-8
+LazyData: true
