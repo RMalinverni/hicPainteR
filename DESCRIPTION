@@ -8,3 +8,9 @@ Description: R-package to visualize and -C Data
 License: What license is it under?
 Encoding: UTF-8
 LazyData: true
+Imports:
+    karyoploteR,
+    regioneR,
+    GenomicRanges,
+    GenomicInteractions,
+    plyranges
