@@ -3,6 +3,7 @@
 createHicPainteRObj<-function(Name,Type=c('HiC','TAD','Loop'),contact,
                              zoom=NA,high_fact=1e6,pCol="red",alpha=0.05,enhance=NA,colBin=500,
                              use_ramp=FALSE,log=FALSE,ramp=NA,pchP=".",cexP=2,...){
+
   if (class(contact)!= "GenomicInteractions") {
     stop('contact value neet to be Genomicinteraction object')
   }
@@ -20,12 +21,12 @@ createHicPainteRObj<-function(Name,Type=c('HiC','TAD','Loop'),contact,
     stop ('"high_fact" need to be numeric')
   }
 
-  if ((!is.color(pCol) & use_ramp=FALSE)){
+  if ((!is.color(pCol)) & use_ramp==FALSE){
     stop ('"pCol" need to be a valid color or select a valid "ramp" value')
   }
 
   if (!is.logical(use_ramp)){
-    stop ('"use_ramp" need to be a locical value')
+    stop ('"use_ramp" need to be a logical value')
   }
 
   if (!is.logical(use_ramp)){
@@ -38,9 +39,9 @@ createHicPainteRObj<-function(Name,Type=c('HiC','TAD','Loop'),contact,
 
   if (Type=='HiC'){
     print("reading the contact matrix")
-    GI<-gInteractionTocMap(contact,zoom=zoom)
+    GI<-gInteractionsTocMap(contact,zoom=zoom)
     print("painting contact map matrix")
-    GI<-cMapPainter(GI,high_fact=high_fact,pCol=pCol,alpha=alpha,enanche=enanche,colBin=colBin,
+    GI<-cMapPainter(GI,high_fact=high_fact,pCol=pCol,alpha=alpha,enhance=enhance,colBin=colBin,
                     use_ramp=use_ramp,log=log,ramp=ramp)
   }
   HPobj<-list(cMap=GI,param=list(Name=Name,

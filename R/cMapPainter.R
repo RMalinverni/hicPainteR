@@ -21,7 +21,7 @@ cMapPainter<-function(cmap,high_fact=1e6,pCol="red",alpha=0.05,enhance=NA,colBin
   }
 
   if ( is.numeric(enhance )){
-    cmap %>%  mutate(counts=counts^enanche)-> cmap
+    cmap %>%  mutate(counts=counts^enhance)-> cmap
   }
 
   if ( use_ramp==FALSE ){

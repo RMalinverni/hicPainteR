@@ -12,8 +12,9 @@ hicDump2GI<-function(dump,chr){
   secondCenter<-start(resize(anchors(GInt,type="second"),fix="center",width=1))
   firstCenter<-start(resize(anchors(GInt,type="first"),fix="center",width=1))
   gap<-(secondCenter-firstCenter)/2
-  #GInt$edge<-firstCenter+gap
-  #GInt$Y<-abs(secondCenter-firstCenter)/2
-  GInt<-GInt[-which(is.nan(GInt$counts))]
+
+  if(sum(is.nan(GInt$counts))!=0){    # this permit to graph also the not normilized dump (hichip for example)
+    GInt<-GInt[-which(is.nan(GInt$counts))]
+  }
   return(GInt)
 }
