@@ -7,11 +7,9 @@ cMapPainter<-function(cmap,high_fact=1e6,pCol="red",alpha=0.05,enhance=NA,colBin
     ramp<-colorRampPalette(colors=c("blue","lightblue","yellow","orange","red","brown"),interpolate="spline",bias=1)(colBin)
   }
 
-  cmap %>% mutate(Ynorm=abs(width(cmap)/2)) -> cmap
-  cmap %>% mutate(Ynorm=(Ynorm-min(Ynorm))/(max(Ynorm)-min(Ynorm))) -> cmap
 
-  widthF<-(end(cmap)-start(cmap))/2
-  cmap$Ys<-abs((widthF)/high_fact)
+  #widthF<-(end(cmap)-start(cmap))/2
+  #cmap$Ys<-abs((widthF)/high_fact)
 
   cmap %>% mutate(orig.counts=counts) -> cmap
 

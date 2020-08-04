@@ -24,6 +24,49 @@ hPhichip<-createHicPainteRObj(Name = "HepG2_chr2",Type = 'HiC',contact = GIhichi
 
 hPhichipM<-createHicPainteRObj(Name = "HepG2_chr2",Type = 'HiC',contact = GIhichipM,
                                zoom='chr2:100,000,000-110,000,000')
+file1<-"/mnt/data1/HiCUP/Macro_Insulation/HIC/ENCODE_hepg2/TADs/ENCODE_hic_hepg2.chr2.out/5000_blocks.bedpe"
+file2<-"/mnt/data1/HiCUP/Macro_Insulation/HIC/ENCODE_hepg2/loops/ENCODE_hic_hepg2.chr2.hiccups_loops/enriched_pixels_5000.bedpe"
+TAD<-arrowHead2GI(bedpe=file1)
+Loops<-hiccups2GI(bedpe=file2)
+
+
+
+Loops<-read.delim("/mnt/data1/HiCUP/Macro_Insulation/HIC/ENCODE_hepg2/loops/ENCODE_hic_hepg2.chr2.hiccups_loops/enriched_pixels_5000.bedpe")
+Loops<-Loops[-1,]
+
+gInteractionsTocMap(GI=Loops)
+bedpe<-TAD
+
+toGenomicInterations(TAD)
+
+gInteractionsTocMap(TAD)
+gInteractionsTocMap(Loops)
+
+
+
+toGenomicInterations<-function(bedpe,counts,style="UCSC"){
+
+  if (!is.na(counts)){
+    if (is.character(counts)){
+      bedpe %>% mutate( counts = counts) -> bedpe
+    }else{
+      bedpe$counts <- counts
+    }
+  }
+
+  chr<-bedpe[,1]
+  anchor1<-toGRanges(data.frame(chr=chr,start=bedpe[,2],end=bedpe[,3]))
+  chr<-bedpe[,4]
+  anchor2<-toGRanges(data.frame(chr=chr,start=bedpe[,5],end=bedpe[,6]))
+  GInt<-GenomicInteractions(anchor1 = anchor1,anchor2 = anchor2,counts = counts)
+  seqlevelsStyle(GInt)<-style
+  return(GInt)
+
+}
+
+Loops<-toGenomicInterations(Loops,c.counts="observed")
+
+gInteractionsTocMap(Loops)
 
 SS<-100e6
 EE<-110e6

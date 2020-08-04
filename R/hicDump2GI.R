@@ -16,5 +16,11 @@ hicDump2GI<-function(dump,chr){
   if(sum(is.nan(GInt$counts))!=0){    # this permit to graph also the not normilized dump (hichip for example)
     GInt<-GInt[-which(is.nan(GInt$counts))]
   }
+
   return(GInt)
 }
+
+
+
+
+
