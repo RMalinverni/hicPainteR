@@ -1,7 +1,7 @@
 # change the parameters of an HicPainterObj without recalculate it
 
 repaintHicPainteRobj<-function(hicPobj,
-                               Name=NA,Type=NA,
+                               Name=NA,mapType=NA,
                                zoom=NA,high_fact=NA,pCol=NA,alpha=NA,enhance=NA,colBin=NA,
                                use_ramp=NA,log=NA,ramp=NA,pchP=NA,cexP=NA,...){
 
@@ -10,7 +10,7 @@ repaintHicPainteRobj<-function(hicPobj,
   }
 
   if ( is.na ( Name )){ Name <- hicPobj$param$Name }
-  if (is.na(Type)){ Type<-hicPobj$param$Type }
+  if (is.na(mapType)){ mapType<-hicPobj$param$mapType }
   if (is.na(zoom)){ zoom<-hicPobj$param$zoom }
   if (is.na(high_fact)){ high_fact<-hicPobj$param$high_fact }
   if (is.na(pCol)){ pCol<-hicPobj$param$pCol }
@@ -32,7 +32,7 @@ repaintHicPainteRobj<-function(hicPobj,
                   use_ramp=use_ramp,log=log,ramp=ramp)
 
   HPobj<-list(cMap=GI,param=list(Name=Name,
-                                 Type=Type,
+                                 mapType=mapType,
                                  zoom=zoom,
                                  high_fact=high_fact,
                                  pCol=pCol,

@@ -1,12 +1,10 @@
 #create an "HicPainteRObj" object that will be recognize using a from karyoploteR
 
-createHicPainteRObj<-function(Name,contact, zoom=NA,high_fact=1e6,pCol="red",alpha=0.05,enhance=NA,colBin=500,
+createHicPainteRObj<-function(Name,contact,mapType,zoom=NA,high_fact=1e6,pCol="red",alpha=0.05,enhance=NA,colBin=500,
                              use_ramp=FALSE,log=FALSE,ramp=NA,pchP=".",cexP=2,lwdP=2,ltyP=1,scores=NA,use.scores=FALSE,...){
 
 
-
-
-    if (Type %in% c('HiC','TAD','Loop') == FALSE ){
+    if (mapType %in% c('cMap','TAD','Loop') == FALSE ){
     stop ('"Type" need to be one of the follows: Hic, TAD or Loop')
     }
 
@@ -36,7 +34,7 @@ createHicPainteRObj<-function(Name,contact, zoom=NA,high_fact=1e6,pCol="red",alp
       stop ('"log" need to be a logical value')
     }
 
-    if (Type=='HiC'){
+    if (mapType=='cMap'){
 
       if (class(contact)!= "GenomicInteractions") {
         stop('for cMap format, contact value need to be Genomicinteraction object')
@@ -50,7 +48,7 @@ createHicPainteRObj<-function(Name,contact, zoom=NA,high_fact=1e6,pCol="red",alp
 
 
       HPobj<-list(cMap=GI,param=list(Name=Name,
-                                   Type='cMap',
+                                   mapType='cMap',
                                    zoom=zoom,
                                    high_fact=high_fact,
                                    pCol=pCol,
@@ -65,15 +63,17 @@ createHicPainteRObj<-function(Name,contact, zoom=NA,high_fact=1e6,pCol="red",alp
 
 
 
-    if (Type =='TAD'){
+    if (mapType =='TAD'){
 
-      if (class(contact)!= "GenomicRanges") {
-        stop('for TAD format, contact value need to be GenomicRanges object')
+      if (class(contact)!= "GenomicInteractions") {
+        stop('for TAD format, contact value need to be GenomicInteractions object')
       }
-
-      GI<-TADsPainter(cmap,high_fact=high_fact,pCol=pCol,zoom=zoom,lwdP=lwdP,ltyP=ltyP)
+      print("reading the contact matrix")
+      GI<-gInteractionsTocMap(contact,zoom=zoom)
+      print("painting contact map matrix")
+      GI<-TADsPainter(GI,high_fact=high_fact,pCol=pCol)
       HPobj<-list(cMap=GI,param=list(Name=Name,
-                                     Type='TAD',
+                                     mapType='TAD',
                                      zoom=zoom,
                                      high_fact=high_fact,
                                      pCol=pCol,
@@ -81,9 +81,9 @@ createHicPainteRObj<-function(Name,contact, zoom=NA,high_fact=1e6,pCol="red",alp
 
     }
 
-  if (Type =='Loop'){
+  if (mapType =='Loop'){
 
-    if (class(contact)!= "GenomicRanges") {
+    if (class(contact)!= "GenomicInteractions") {
       stop('for Loop format, contact value need to be GenomicRanges object')
     }
 
@@ -95,7 +95,7 @@ createHicPainteRObj<-function(Name,contact, zoom=NA,high_fact=1e6,pCol="red",alp
 
 
     HPobj<-list(cMap=GI,param=list(Name=Name,
-                                   Type='Loop',
+                                   mapType='Loop',
                                    zoom=zoom,
                                    high_fact=high_fact,
                                    pCol=pCol,
