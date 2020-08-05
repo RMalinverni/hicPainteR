@@ -3,70 +3,38 @@ library("GenomicInteractions")
 library("plyranges")
 library("ggplot2")
 
-hic<-read.delim("/mnt/data1/HiCUP/Macro_Insulation/HIC/ENCODE_hepg2/dumps/ENCODE_hic_hepg2.chr2.dump.txt",header=FALSE)
-hichip<-read.delim("/mnt/data1/HiCUP/Macro_Insulation/HIChIP/h3k4me3_hichip/hic/hichip_h3k4me3_chr2_dump.txt",header=FALSE)
-hichipM<-read.delim("/mnt/data1/HiCUP/Macro_Insulation/HIChIP/macroH2A_hichip/hic/hichip_macro_chr2_dump.txt",header=FALSE)
+#for private
+setwd("~/work/insulation/script/hicPainteR/Test_data_hicPainter")
+hic_file<-"HIC_hepg2_chr2_dump.txt"
+hic_loops_file<-"HIC_hepg2_chr2_merged_loops.bedpe"
+hic_TAD_10k_file<-"HIC_hepg2_chr2_TADs_10K.bedpe"
+hic_TAD_5K_file<-"HIC_hepg2_chr2_TADs_5K.bedpe"
+hichip_k4_file<-"HiChIP_hepg2_chr2_h3k4me3_dump.txt"
+hichip_macroH2A_file<-"HiChIP_hepg2_chr2_macroH2A_dump.txt"
 
-GIhic<-hicDump2GI(hic,chr = "chr2")
-GIhichip<-hicDump2GI(hichip,chr = "chr2")
-GIhichipM<-hicDump2GI("/mnt/data1/HiCUP/Macro_Insulation/HIChIP/macroH2A_hichip/hic/hichip_macro_chr2_dump.txt",chr = "chr2")
+GIhic<-hicDump2GI(hic_file,chr = "chr2")
+GI_hic_loops<-hiccups2GI(hic_loops_file)
+GI_hic_TAD_10K<-arrowHead2GI(hic_TAD_10k_file)
+GIhichip_K4<-hicDump2GI(hichip_k4_file,chr = "chr2")
+GIhichip_macro<-hicDump2GI(hichip_macroH2A_file,chr = "chr2")
 
+zoom1<-'chr2:100,000,000-105,000,000'
 
-rm(hic)
-rm(hichip)
+hPhic<-createHicPainteRObj(Name = "hic_HepG2_chr2",mapType = 'cMap',contact = GIhic,
+                           zoom=zoom1)
 
+hPhichip_K4<-createHicPainteRObj(Name = "hichip_HepG2_K4_chr2", mapType = 'cMap',contact = GIhichip_K4,
+                              zoom=zoom1)
 
-hPhic<-createHicPainteRObj(Name = "HepG2_chr2",Type = 'HiC',contact = GIhic,
-                           zoom='chr2:100,000,000-110,000,000')
+hPhichip_macro<-createHicPainteRObj(Name = "hichip_HepG2_K4_chr2", mapType = 'cMap',contact = GIhichip_macro,
+                                 zoom=zoom1)
 
-hPhichip<-createHicPainteRObj(Name = "HepG2_chr2",Type = 'HiC',contact = GIhichip,
-                              zoom='chr2:100,000,000-110,000,000')
+hP_loops<-createHicPainteRObj(Name = "hic_HepG2_loops_chr2",mapType = 'Loop',contact = GI_hic_loops,
+                               zoom=zoom1)
 
-hPhichipM<-createHicPainteRObj(Name = "HepG2_chr2",Type = 'HiC',contact = GIhichipM,
-                               zoom='chr2:100,000,000-110,000,000')
-file1<-"/mnt/data1/HiCUP/Macro_Insulation/HIC/ENCODE_hepg2/TADs/ENCODE_hic_hepg2.chr2.out/5000_blocks.bedpe"
-file2<-"/mnt/data1/HiCUP/Macro_Insulation/HIC/ENCODE_hepg2/loops/ENCODE_hic_hepg2.chr2.hiccups_loops/enriched_pixels_5000.bedpe"
-TAD<-arrowHead2GI(bedpe=file1)
-Loops<-hiccups2GI(bedpe=file2)
+hP_TADs_10K<-createHicPainteRObj(Name = "hic_HepG2_loops_chr2",mapType = 'TAD',contact = GI_hic_TAD_10K,
+                                 zoom=zoom1)
 
-
-
-Loops<-read.delim("/mnt/data1/HiCUP/Macro_Insulation/HIC/ENCODE_hepg2/loops/ENCODE_hic_hepg2.chr2.hiccups_loops/enriched_pixels_5000.bedpe")
-Loops<-Loops[-1,]
-
-gInteractionsTocMap(GI=Loops)
-bedpe<-TAD
-
-toGenomicInterations(TAD)
-
-gInteractionsTocMap(TAD)
-gInteractionsTocMap(Loops)
-
-
-
-toGenomicInterations<-function(bedpe,counts,style="UCSC"){
-
-  if (!is.na(counts)){
-    if (is.character(counts)){
-      bedpe %>% mutate( counts = counts) -> bedpe
-    }else{
-      bedpe$counts <- counts
-    }
-  }
-
-  chr<-bedpe[,1]
-  anchor1<-toGRanges(data.frame(chr=chr,start=bedpe[,2],end=bedpe[,3]))
-  chr<-bedpe[,4]
-  anchor2<-toGRanges(data.frame(chr=chr,start=bedpe[,5],end=bedpe[,6]))
-  GInt<-GenomicInteractions(anchor1 = anchor1,anchor2 = anchor2,counts = counts)
-  seqlevelsStyle(GInt)<-style
-  return(GInt)
-
-}
-
-Loops<-toGenomicInterations(Loops,c.counts="observed")
-
-gInteractionsTocMap(Loops)
 
 SS<-100e6
 EE<-110e6
@@ -88,44 +56,41 @@ kp<-plotKaryotype(chromosomes = "chr2", zoom=zoom,plot.params = pp)
 at <- autotrack(c(1,3),ntracks*2,r0=0,r1=1,margin=0)
 kpRect(kp,chr=chr,x0= SS, x1=EE,y0=0, y1=1,col="white",border=NA, r0=at$r0,r1=at$r1)
 at <- autotrack(1,ntracks*2,r0=0,r1=1,margin=0.2)
-hPhichipM<-repaintHicPainteRobj(hPhichipM,alpha = 0.05,cexP = 1,log=FALSE,use_ramp = FALSE)
-kpHiC(kp,hicPobj = hPhichipM)
-
-
-#fakeObj<-hPObj
-#fakeObj$cMap$orig.counts[fakeObj$cMap$orig.counts > 580]<-0.001
+kpHiC(kp,hicPobj = hPhic)
 
 at <- autotrack(c(3,4),ntracks*2,r0=0,r1=1,margin=0)
 kpRect(kp,chr=chr,x0= SS, x1=EE,y0=0, y1=1,col="white",border=NA, r0=at$r0,r1=at$r1)
 at <- autotrack(c(3),ntracks*2,r0=0,r1=1,margin=0.2)
-hPhichip<-repaintHicPainteRobj(hPhichip,alpha = 0.0005,cexP = 2,log=TRUE,use_ramp = FALSE)
-kpHiC(kp,hicPobj = hPhichip)
-
+kpHiC(kp,hicPobj = hPhichip_K4)
 
 at <- autotrack(c(5,6),ntracks*2,r0=0,r1=1,margin=0)
 kpRect(kp,chr=chr,x0= SS, x1=EE,y0=0, y1=1,col="white",border=NA, r0=at$r0,r1=at$r1)
 at <- autotrack(c(5),ntracks*2,r0=0,r1=1,margin=0.2)
-hPhic<-repaintHicPainteRobj(hPhic,alpha = 0.0005,cexP = 2,log=TRUE,use_ramp = TRUE,enhance = 1)
-kpHiC(kp,hicPobj = hPhic)
+kpHiC(kp,hicPobj = hPhichip_macro)
 
 
+map<-hPhichip_macro$cMap
+n=10000
+Xm<-10000
+Ym<-5
 
-test<-hPObj$cMap
-
-test %>% filter (ynorm)
 
 crossCalc<-function(map,n,Xm,Ym){
   numb<-map$edge[n]
-  numbY<-test$Ynorm[n]
-  limitYup<-2e6/(max(mapt$edge)-min(map$edge))
-  limitYdown<-1e5/(max(map$edge)-min(map$edge))
-  map %>% filter (Ynorm >= limitYdown & Ynorm <= limitYup)
-  map %>% filter((edge >= numb-Xm) & (edge <= numb+Xm)) %>% filter ((Ynorm >= numbY-Ym) &(Ynorm <=numbY +Ym)) -> test1
-
-
-  #res<- mean(test1$orig.counts)
+  numbY<-map$Ys[n]
+  map %>% filter (Ys >= Ys-Ym & Ys <= Ys+Ym) -> map
+  map %>% filter((edge >= numb-Xm) & (edge <= numb+Xm)) %>% filter ((Ys >= numbY-Ym) &(Ys <=numbY +Ym)) -> test1
+  print(length(test1))
+  res<- sum(test1$counts)
   return(res)
 }
+
+vecC<-vector()
+for( i in 5000:5100){
+  vecC[i]<-crossCalc(map=map,n=i,Xm=10000,Ym=5)
+}
+
+
 
 
 

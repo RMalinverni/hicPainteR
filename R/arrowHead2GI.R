@@ -5,8 +5,7 @@ arrowHead2GI<-function(bedpe){
     bedpe<-read.delim(bedpe,header=TRUE)
     bedpe<-bedpe[-1,]
   }
-  print(nrow(bedpe))
-  print(counts)
+  #print(nrow(bedpe))
   GInt<-toGenomicInterations(bedpe,counts=NA)
   GR1<-anchors(GInt,type="first")
   end(GR1)<-start(GR1)

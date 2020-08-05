@@ -1,5 +1,5 @@
 loopsPainter<-function(cmap,high_fact=1e6,pCol="red",alpha=1,enhance=NA,colBin=500,
-                      scores=NA,use.scores=NA,log=FALSE,...){
+                       scores=NA,use.scores=NA,log=FALSE,...){
 
   cmap %>% mutate(orig.counts=counts) -> cmap
 
@@ -23,7 +23,7 @@ loopsPainter<-function(cmap,high_fact=1e6,pCol="red",alpha=1,enhance=NA,colBin=5
   }
 
   cmap %>% mutate(counts=round(((counts-min(counts))/(max(counts)-min(counts)))*colBin,digits = 0)+1) %>%
-   mutate(colors=alpha(pCol,alpha=counts*alpha)) -> cmap
+    mutate(colors=alpha(pCol,alpha=counts*alpha)) -> cmap
 
   cmap<-sort(cmap)
 

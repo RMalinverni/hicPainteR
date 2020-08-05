@@ -6,9 +6,9 @@ toGenomicInterations<-function(bedpe, counts=NA,style="UCSC"){
     if (is.character(counts)){
       bedpe %>% mutate( counts = eval(parse(text = counts))) -> bedpe
     } else {
-        stop ( "counts need to be a columnname of bedpe or NA" )
-      }
-   }
+      stop ( "counts need to be a columnname of bedpe or NA" )
+    }
+  }
 
   chr<-bedpe[,1]
   anchor1<-toGRanges(data.frame(chr=chr,start=bedpe[,2],end=bedpe[,3]))

@@ -19,8 +19,8 @@ gInteractionsTocMap<-function(GI,zoom=NA){
   }
 
   cmap %>% mutate(Ynorm=abs(width(cmap)/2)) -> cmap
+  cmap %>% mutate(Ys=Ynorm/1e6) -> cmap
   cmap %>% mutate(Ynorm=(Ynorm-min(Ynorm))/(max(Ynorm)-min(Ynorm))) -> cmap
 
   return(cmap)
 }
-
