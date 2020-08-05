@@ -37,7 +37,7 @@ hP_TADs_10K<-createHicPainteRObj(Name = "hic_HepG2_loops_chr2",mapType = 'TAD',c
 
 
 SS<-100e6
-EE<-110e6
+EE<-105e6
 chr="chr2"
 zoom<-regioneR::toGRanges(data.frame(chr=chr,start=SS,end=EE))
 
@@ -57,6 +57,7 @@ at <- autotrack(c(1,3),ntracks*2,r0=0,r1=1,margin=0)
 kpRect(kp,chr=chr,x0= SS, x1=EE,y0=0, y1=1,col="white",border=NA, r0=at$r0,r1=at$r1)
 at <- autotrack(1,ntracks*2,r0=0,r1=1,margin=0.2)
 kpHiC(kp,hicPobj = hPhic)
+kpTAD(kp,hicPobj = hP_TADs_10K)
 
 at <- autotrack(c(3,4),ntracks*2,r0=0,r1=1,margin=0)
 kpRect(kp,chr=chr,x0= SS, x1=EE,y0=0, y1=1,col="white",border=NA, r0=at$r0,r1=at$r1)
@@ -67,7 +68,7 @@ at <- autotrack(c(5,6),ntracks*2,r0=0,r1=1,margin=0)
 kpRect(kp,chr=chr,x0= SS, x1=EE,y0=0, y1=1,col="white",border=NA, r0=at$r0,r1=at$r1)
 at <- autotrack(c(5),ntracks*2,r0=0,r1=1,margin=0.2)
 kpHiC(kp,hicPobj = hPhichip_macro)
-
+kpTAD(kp,hicPobj = hP_TADs_10K)
 
 map<-hPhichip_macro$cMap
 n=10000
@@ -80,13 +81,13 @@ crossCalc<-function(map,n,Xm,Ym){
   numbY<-map$Ys[n]
   map %>% filter (Ys >= Ys-Ym & Ys <= Ys+Ym) -> map
   map %>% filter((edge >= numb-Xm) & (edge <= numb+Xm)) %>% filter ((Ys >= numbY-Ym) &(Ys <=numbY +Ym)) -> test1
-  print(length(test1))
+  #print(length(test1))
   res<- sum(test1$counts)
   return(res)
 }
 
 vecC<-vector()
-for( i in 5000:5100){
+for( i in 1:length(map)){
   vecC[i]<-crossCalc(map=map,n=i,Xm=10000,Ym=5)
 }
 
