@@ -1,4 +1,4 @@
-#create an "HicPainteRObj" object that will be recognize using a from karyoploteR
+#create an "HicPainteRObj" object that will be recognize from karyoploteR
 
 createHicPainteRObj<-function(Name,contact,mapType,zoom=NA,high_fact=1e6,pCol="red",alpha=0.05,enhance=NA,colBin=500,
                               use_ramp=FALSE,log=FALSE,ramp=NA,pchP=".",cexP=2,lwdP=2,ltyP=1,scores=NA,use.scores=FALSE,...){
