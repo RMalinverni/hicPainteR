@@ -14,3 +14,4 @@ Imports:
     GenomicRanges,
     GenomicInteractions,
     plyranges
+RoxygenNote: 7.1.1

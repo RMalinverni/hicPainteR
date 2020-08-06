@@ -5,6 +5,10 @@ library("ggplot2")
 
 #for private
 setwd("~/work/insulation/script/hicPainteR/Test_data_hicPainter")
+
+#for work
+setwd("/mnt/data1/Test_data_hicPainter")
+
 hic_file<-"HIC_hepg2_chr2_dump.txt"
 hic_loops_file<-"HIC_hepg2_chr2_merged_loops.bedpe"
 hic_TAD_10k_file<-"HIC_hepg2_chr2_TADs_10K.bedpe"

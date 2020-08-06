@@ -16,25 +16,3 @@ kpLoops<-function(kp,hicPobj,loopType='Arcs'){
 
 
 
-
-
-
-
-genome<-getGenome('hg19')
-genome<-genome[seqnames(genome)=="chr2"]
-genome1<-toGRanges(toDataframe(genome))
-starts <- sort(createRandomRegions(nregions = 55,genome = genome1,length.mean=3e6))
-ends <- sort(createRandomRegions(nregions = 55,genome = genome1,length.mean=3e6))
-
-kpPlotLinks(kp, data=starts, data2=starts)
-
-
-
-kp <- plotKaryotype()
-kpPlotLinks(kp, data=starts, data2=ends)
-
-#flip some of them to represent inversions
-strand(ends) <- sample(c("+", "-"), length(ends), replace = TRUE)
-
-kp <- plotKaryotype()
-kpPlotLinks(kp, data=starts, data2=ends)

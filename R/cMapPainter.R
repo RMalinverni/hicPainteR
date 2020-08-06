@@ -1,5 +1,3 @@
-#add color and normalization to cMap object
-
 cMapPainter<-function(cmap,high_fact=1e6,pCol="red",alpha=0.05,enhance=NA,colBin=500,
                       ramp=NA,use_ramp=FALSE,log=FALSE,zoom=NULL,...){
 
