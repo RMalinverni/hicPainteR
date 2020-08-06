@@ -1,4 +1,24 @@
-#transform GenomicInteraction objects in cMap object
+#' Genomics Interaction to Genomic Map
+#'
+#' transform a GenomicsInteraction object to a Granges with mCol "edge" and "Ys" that will be use for create a hicPainter Object,
+#' if zoom is provided it will extract only this portion of genome
+#'
+#' @usage gInteractionsTocMap( GI, zoom = NA )
+#'
+#' @param GI GenomicInteractions object
+#' @param zoom character - genomic coordinate in wich the GRanges will be contruct, if not privide it will use all the contact of GI.
+#'             The format need to be "chromosome:start-end" ( default = NA )
+#'
+#'
+#'
+#' @seealso ...
+#'
+#' @examples  ...
+#'
+#' @references ...
+#' @importFrom ...
+#' @export gInteractionsTocMap
+
 
 gInteractionsTocMap<-function(GI,zoom=NA){
   seqlevelsStyle(GI)<-'UCSC'

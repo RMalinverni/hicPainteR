@@ -34,10 +34,10 @@ hPhichip_macro<-createHicPainteRObj(Name = "hichip_HepG2_K4_chr2", mapType = 'cM
                                  zoom=zoom1)
 
 hP_loops<-createHicPainteRObj(Name = "hic_HepG2_loops_chr2",mapType = 'Loop',contact = GI_hic_loops,
-                               zoom=zoom1)
+                               zoom=zoom1, pCol="green")
 
 hP_TADs_10K<-createHicPainteRObj(Name = "hic_HepG2_loops_chr2",mapType = 'TAD',contact = GI_hic_TAD_10K,
-                                 zoom=zoom1)
+                                 zoom=zoom1,pCol="black")
 
 
 SS<-100e6
@@ -59,18 +59,20 @@ kp<-plotKaryotype(chromosomes = "chr2", zoom=zoom,plot.params = pp)
 
 at <- autotrack(c(1,3),ntracks*2,r0=0,r1=1,margin=0)
 kpRect(kp,chr=chr,x0= SS, x1=EE,y0=0, y1=1,col="white",border=NA, r0=at$r0,r1=at$r1)
-at <- autotrack(1,ntracks*2,r0=0,r1=1,margin=0.2)
+at <- autotrack(1,ntracks*2,r0=0,r1=1,margin=0.5)
 kpHiC(kp,hicPobj = hPhic)
-kpTAD(kp,hicPobj = hP_TADs_10K)
+kpLoops(kp,hicPobj = hP_loops, loopType = "Arcs")
 
 at <- autotrack(c(3,4),ntracks*2,r0=0,r1=1,margin=0)
 kpRect(kp,chr=chr,x0= SS, x1=EE,y0=0, y1=1,col="white",border=NA, r0=at$r0,r1=at$r1)
-at <- autotrack(c(3),ntracks*2,r0=0,r1=1,margin=0.2)
+at <- autotrack(c(3),ntracks*2,r0=0,r1=1,margin=0.5)
 kpHiC(kp,hicPobj = hPhichip_K4)
+kpTAD(kp,hicPobj = hP_TADs_10K)
+
 
 at <- autotrack(c(5,6),ntracks*2,r0=0,r1=1,margin=0)
 kpRect(kp,chr=chr,x0= SS, x1=EE,y0=0, y1=1,col="white",border=NA, r0=at$r0,r1=at$r1)
-at <- autotrack(c(5),ntracks*2,r0=0,r1=1,margin=0.2)
+at <- autotrack(c(5),ntracks*2,r0=0,r1=1,margin=0.5)
 kpHiC(kp,hicPobj = hPhichip_macro)
 kpTAD(kp,hicPobj = hP_TADs_10K)
 
