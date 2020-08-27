@@ -23,6 +23,8 @@ repaintHicPainteRobj<-function(hicPobj,
   if (is.na(pchP)){ pchP<-hicPobj$param$pchP }
   if (is.na(cexP)){ cexP<-hicPobj$param$cexP }
 
+  YS<-hicPobj$cMap$Ys
+
   GI<-granges(hicPobj$cMap)
   GI$counts<-hicPobj$cMap$orig.counts
   GI$edge<-hicPobj$cMap$edge
@@ -30,7 +32,7 @@ repaintHicPainteRobj<-function(hicPobj,
   print("re-painting contact map matrix")
   GI<-cMapPainter(GI,high_fact=high_fact,pCol=pCol,alpha=alpha,enhance=enhance,colBin=colBin,
                   use_ramp=use_ramp,log=log,ramp=ramp)
-
+  GI$Ys<-YS
   HPobj<-list(cMap=GI,param=list(Name=Name,
                                  Type=Type,
                                  zoom=zoom,
