@@ -15,6 +15,14 @@ hic_TAD_10k_file<-"HIC_hepg2_chr2_TADs_10K.bedpe"
 hic_TAD_5K_file<-"HIC_hepg2_chr2_TADs_5K.bedpe"
 hichip_k4_file<-"HiChIP_hepg2_chr2_h3k4me3_dump.txt"
 hichip_macroH2A_file<-"HiChIP_hepg2_chr2_macroH2A_dump.txt"
+hic_comp_100K_file<-"ENCODE_hic_hepg2.chr2.compartments_100K.txt"
+hic_comp_1M_file<-"ENCODE_hic_hepg2.chr2.compartments_1M.txt"
+
+ingVec<-read.delim(hic_comp_1M_file,header=FALSE)
+fin<-nrow(ingVec)-1
+seq(0,fin*1e6,by=1e6)
+
+
 
 GIhic<-hicDump2GI(hic_file,chr = "chr2")
 GI_hic_loops<-hiccups2GI(hic_loops_file)
@@ -22,10 +30,10 @@ GI_hic_TAD_10K<-arrowHead2GI(hic_TAD_10k_file)
 GIhichip_K4<-hicDump2GI(hichip_k4_file,chr = "chr2")
 GIhichip_macro<-hicDump2GI(hichip_macroH2A_file,chr = "chr2")
 
-zoom1<-'chr2:100,000,000-105,000,000'
+zoom1<-'chr2:157,727,149-159,977,148'
 
 hPhic<-createHicPainteRObj(Name = "hic_HepG2_chr2",mapType = 'cMap',contact = GIhic,
-                           zoom=zoom1)
+                           zoom=zoom1,high_fact=5e5,)
 
 hPhichip_K4<-createHicPainteRObj(Name = "hichip_HepG2_K4_chr2", mapType = 'cMap',contact = GIhichip_K4,
                               zoom=zoom1)
@@ -40,8 +48,8 @@ hP_TADs_10K<-createHicPainteRObj(Name = "hic_HepG2_loops_chr2",mapType = 'TAD',c
                                  zoom=zoom1,pCol="black")
 
 
-SS<-100e6
-EE<-105e6
+SS<-156727149
+EE<-161977148
 chr="chr2"
 zoom<-regioneR::toGRanges(data.frame(chr=chr,start=SS,end=EE))
 
