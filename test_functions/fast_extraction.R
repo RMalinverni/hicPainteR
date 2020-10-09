@@ -1,6 +1,13 @@
 library(strawr)
+library(regioneR)
+library(GenomicInteractions)
+library(plyranges)
+library(tidyverse)
+library(karyoploteR)
 
+TAD<-
 zoomString<-"chr2:175,849,978-178,182,899"
+
 createZooms<-function(zoomString){
   zoom<-gsub(",","",zoomString)
   chr<-strsplit(zoom,":")[[1]][1]
@@ -10,13 +17,12 @@ createZooms<-function(zoomString){
   GR<-regioneR::toGRanges(data.frame(chr=chr,start=start,end=end))
   zoomObj<-list(
     zoom=zoom,
-    cher=chr,
+    chr=chr,
     start=start,
     end=end,
     GR=GR)
   return(zoomObj)
 }
-
 
 reShapeTAD<-function(TAD,GR_test,xbin=10000,yfactor=2){
   selGR<- GR_test %>% filter(start(GR_test) >= start(TAD), end(GR_test)<= end(TAD))
@@ -75,5 +81,26 @@ DFfromHIC<-function(hicFile,zoom,seq_style="UCSC",bin=10000,norm="KR"){
 }
 
 hic.data.frame <- strawr::straw("KR", "/path/to/file.hic", "11", "11", "BP", 10000)
-hic.file<-"/home/malli/work/insulation/Hi-C/macroDKD.hic"
-DFfromHIC(hicFile = hic.file,seq_style = "NCBI",zoom = zoom)
+
+hic.file <- "/home/malli/work/insulation/hichip/K4_hichip_q_10.hic"
+Dump <- DFfromHIC(hicFile = hic.file,seq_style = "NCBI",zoom = zoomString,norm = "NONE")
+GI <- hicDump2GI(Dump,chr=zoom$chr)
+HiCO <- createHicPainteRObj(GI,mapType = "cMap")
+
+zoom<-createZooms(zoomString)
+kp <-plotKaryotype(zoom = zoom$GR)
+kpHiC(kp,HiCO)
+
+TAD<-regioneR::toGRanges(data.frame(chr="chr2",start=min(start(gInteractionsTocMap(GI))),end=max(start(gInteractionsTocMap(GI)))))
+selGR<-reShapeTAD(TAD,gInteractionsTocMap(GI), xbin=10000)
+
+zoomString<-"chr2:175,849,978-178,182,899"
+XX<-xtabs(log(selGR$counts)~selGR$x1 +selGR$y)
+
+
+
+mat<-as.matrix(XX)
+image(log(as.matrix(XX)))
+
+
+
