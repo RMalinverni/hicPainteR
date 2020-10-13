@@ -53,9 +53,9 @@ createHicPainteRObj<-function(contact, mapType, Name=NA, zoom=NA, high_fact=1e6,
     stop ('"high_fact" need to be numeric')
   }
 
-  if ((!is.color(pCol)) & use_ramp==FALSE){
-    stop ('"pCol" need to be a valid color or select a valid "ramp" value')
-  }
+  # if ((!is.color(pCol)) & use_ramp==FALSE){  #change this for same results
+  #   stop ('"pCol" need to be a valid color or select a valid "ramp" value')
+  # }
 
   if (!is.logical(use_ramp)){
     stop ('"use_ramp" need to be a logical value')
