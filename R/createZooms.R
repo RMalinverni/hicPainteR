@@ -10,8 +10,8 @@ createZooms<-function(zoom){
 
   if (is.character(zoom)){
     zoomString<-gsub(",","",zoom)
-    chr<-strsplit(zoom,":")[[1]][1]
-    range<-strsplit(zoom,":")[[1]][2]
+    chr<-strsplit(zoomString,":")[[1]][1]
+    range<-strsplit(zoomString,":")[[1]][2]
     start<-strsplit(range,"-")[[1]][1]
     end<-strsplit(range,"-")[[1]][2]
     GR<-regioneR::toGRanges(data.frame(chr=chr,start=start,end=end))

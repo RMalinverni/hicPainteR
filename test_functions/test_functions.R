@@ -10,7 +10,7 @@ setwd("~/work/insulation/script/hicPainteR/Test_data_hicPainter")
 setwd("/mnt/data1/Test_data_hicPainter")
 
 hic_file<-"HIC_hepg2_chr2_dump.txt"
-hic_loops_file<-"HIC_hepg2_chr2_merged_loops.bedpe"
+hic_loops_file<-"HIC_hepg2_chr10_merged_loops.bedpe"
 hic_TAD_10k_file<-"HIC_hepg2_chr2_TADs_10K.bedpe"
 hic_TAD_5K_file<-"HIC_hepg2_chr2_TADs_5K.bedpe"
 hichip_k4_file<-"HiChIP_hepg2_chr2_h3k4me3_dump.txt"
