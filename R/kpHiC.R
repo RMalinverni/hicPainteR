@@ -8,13 +8,14 @@ kpHiC<-function(kp,hicPobj,r0=0,r1=1,lim_dist=5e6,...){
   }
 
   chr=seqlevels(hicPobj$cMap[1])
-  kpPoints(kp,
+  kpPoints(karyoplot=kp,
            chr=chr,
-           y=hicPobj$cMap$edge,
-           x=hicPobj$cMap$Ys,
+           x=hicPobj$cMap$edge,
+           y=hicPobj$cMap$Ys,
            col=hicPobj$cMap$colors,
            r0=r0,
            r1=r1,
            pch=hicPobj$param$pchP,
-           cex=hicPobj$param$cexP)
+           cex=hicPobj$param$cexP,
+           clipping=TRUE)
 }
