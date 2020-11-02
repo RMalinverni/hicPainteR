@@ -8,13 +8,13 @@ kpHiC<-function(kp,hicPobj,r0=0,r1=1,lim_dist=5e6,...){
   }
 
   chr=seqlevels(hicPobj$cMap[1])
-  kpPoints(k$cMap$edge,
-           y=hicPp,chr=chr,
-           x=hicPobjobj$cMap$Ys,
+  kpPoints(kp,
+           chr=chr,
+           y=hicPobj$cMap$edge,
+           x=hicPobj$cMap$Ys,
            col=hicPobj$cMap$colors,
            r0=r0,
            r1=r1,
            pch=hicPobj$param$pchP,
-           cex=hicPobj$param$cexP,
-           clipping=TRUE)
+           cex=hicPobj$param$cexP)
 }
