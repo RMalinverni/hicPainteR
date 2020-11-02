@@ -6,7 +6,7 @@ library(tidyverse)
 library(karyoploteR)
 library(RColorBrewer)
 library("viridis")
-
+library(scales)
 library(Homo.sapiens)
 library(BSgenome.Hsapiens.UCSC.hg19)
 library(TxDb.Hsapiens.UCSC.hg19.knownGene)
@@ -147,7 +147,7 @@ comulativeMatrix<-function(GR,GI,bin=1000,yfactor=2,verbose=FALSE){
 }
 
 zoom<-zoom$zoomString
-DFfromHIC<-function(hicFile,zoom,seq_style="UCSC",bin=10000,norm="KR"){
+DFfromHIC<-function(hicFile,zoom,seq_style="UCSC",bin=5000,norm="KR"){
 
   if (is.character(zoom)){
     zoom<-createZooms(zoom)
